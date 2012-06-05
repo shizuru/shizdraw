@@ -6,3 +6,10 @@ body {
 a {
   color: #00B7FF;
 }
+
+#layer0 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border: 10px solid #dddddd;
+}
