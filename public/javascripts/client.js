@@ -1,0 +1,90 @@
+(function() {
+  var Painter;
+
+  Painter = (function() {
+
+    function Painter(id) {
+      this.id = id;
+      this.canvas = document.getElementById(this.id);
+      this.context = this.canvas.getContext('2d');
+      this.init();
+      this.setEvents();
+    }
+
+    Painter.prototype.init = function() {
+      this.beforX = null;
+      this.beforY = null;
+      this.isDrawing = false;
+      this.strokeStyle = this.getRandomColor();
+      return this.lineWidth = 3;
+    };
+
+    Painter.prototype.getRandomColor = function() {
+      var b, g, r;
+      r = Math.floor(Math.random() * 255);
+      g = Math.floor(Math.random() * 255);
+      b = Math.floor(Math.random() * 255);
+      return "rgb(" + r + "," + g + "," + b + ")";
+    };
+
+    Painter.prototype.setEvents = function() {
+      var _this = this;
+      this.canvas.addEventListener('mousedown', function(event) {
+        return _this.down(event);
+      });
+      this.canvas.addEventListener('mouseup', function(event) {
+        return _this.up(event);
+      });
+      this.canvas.addEventListener('mousemove', function(event) {
+        return _this.move(event);
+      });
+      return this.canvas.addEventListener('mouseout', function(event) {
+        return _this.up(event);
+      });
+    };
+
+    Painter.prototype.down = function(event) {
+      this.isDrawing = true;
+      this.beforX = event.clientX;
+      return this.beforY = event.clientY;
+    };
+
+    Painter.prototype.up = function(event) {
+      return this.isDrawing = false;
+    };
+
+    Painter.prototype.drawLine = function(points) {
+      this.context.beginPath();
+      this.context.strokeStyle = points.c;
+      this.context.lineWidth = this.lineWidth;
+      this.context.lineCap = 'round';
+      this.context.lineJoin = 'round';
+      this.context.moveTo(points.bx, points.by);
+      this.context.lineTo(points.ax, points.ay);
+      this.context.stroke();
+      return this.context.closePath();
+    };
+
+    Painter.prototype.move = function(event) {
+      var points;
+      if (!this.isDrawing) return;
+      points = {
+        bx: this.beforX,
+        by: this.beforY,
+        ax: event.clientX,
+        ay: event.clientY,
+        c: this.strokeStyle
+      };
+      now.distributeMessage(JSON.stringify(points));
+      this.drawLine(points);
+      this.beforX = points.ax;
+      return this.beforY = points.ay;
+    };
+
+    return Painter;
+
+  })();
+
+  window.Painter = Painter;
+
+}).call(this);
