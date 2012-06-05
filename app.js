@@ -1,5 +1,5 @@
 (function() {
-  var app, everyone, express, routes;
+  var app, everyone, express, port, routes;
 
   express = require("express");
 
@@ -35,7 +35,9 @@
     return everyone.now.receiveMessage(message);
   };
 
-  app.listen(3000, function() {
+  port = process.env.PORT || 3000;
+
+  app.listen(port, function() {
     return console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
   });
 
