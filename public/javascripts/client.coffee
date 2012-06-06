@@ -26,8 +26,8 @@ class Painter
 
   down: (event) ->
     @isDrawing = true
-    @beforX = event.clientX
-    @beforY = event.clientY
+    @beforX = event.clientX - 10
+    @beforY = event.clientY - 10
 
   up: (event) ->
     @isDrawing = false
@@ -49,8 +49,8 @@ class Painter
     points =
       bx: @beforX
       by: @beforY
-      ax: event.clientX
-      ay: event.clientY
+      ax: event.clientX - 10
+      ay: event.clientY - 10
       c: @strokeStyle
 
     now.distributeMessage(JSON.stringify(points))

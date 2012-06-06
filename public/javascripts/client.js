@@ -45,8 +45,8 @@
 
     Painter.prototype.down = function(event) {
       this.isDrawing = true;
-      this.beforX = event.clientX;
-      return this.beforY = event.clientY;
+      this.beforX = event.clientX - 10;
+      return this.beforY = event.clientY - 10;
     };
 
     Painter.prototype.up = function(event) {
@@ -71,8 +71,8 @@
       points = {
         bx: this.beforX,
         by: this.beforY,
-        ax: event.clientX,
-        ay: event.clientY,
+        ax: event.clientX - 10,
+        ay: event.clientY - 10,
         c: this.strokeStyle
       };
       now.distributeMessage(JSON.stringify(points));
