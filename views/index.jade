@@ -2,7 +2,5 @@ canvas#layer0(width='900px', height='600px')
 script
   $(document).ready(function(){
     var painter = new Painter('layer0');
-    now.receiveMessage = function(message){
-       var d = JSON.parse(message);
-       painter.drawLine(d);
-    }});
+    now.receiveMessage = function(message){ painter.drawLine(JSON.parse(message)) };
+  });
