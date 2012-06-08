@@ -1,28 +1,25 @@
 class Painter
   constructor: (@id) ->
+    #init
     @canvas = document.getElementById(@id)
     @context = @canvas.getContext('2d')
-    @init()
-    @setEvents()
-
-  init: ->
     @beforX = null
     @beforY = null
     @isDrawing = false
     @strokeStyle = @getRandomColor()
     @lineWidth = 3
 
+    #set events
+    @canvas.addEventListener 'mousedown', (event) => @down(event)
+    @canvas.addEventListener 'mouseup',   (event) => @up(event)
+    @canvas.addEventListener 'mousemove', (event) => @move(event)
+    @canvas.addEventListener 'mouseout',  (event) => @up(event)
+
   getRandomColor: ->
     r = Math.floor(Math.random() * 255)
     g = Math.floor(Math.random() * 255)
     b = Math.floor(Math.random() * 255)
     return "rgb(#{r},#{g},#{b})"
-
-  setEvents: ->
-    @canvas.addEventListener 'mousedown', (event) => @down(event)
-    @canvas.addEventListener 'mouseup',   (event) => @up(event)
-    @canvas.addEventListener 'mousemove', (event) => @move(event)
-    @canvas.addEventListener 'mouseout',  (event) => @up(event)
 
   down: (event) ->
     @isDrawing = true

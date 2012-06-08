@@ -4,31 +4,15 @@
   Painter = (function() {
 
     function Painter(id) {
+      var _this = this;
       this.id = id;
       this.canvas = document.getElementById(this.id);
       this.context = this.canvas.getContext('2d');
-      this.init();
-      this.setEvents();
-    }
-
-    Painter.prototype.init = function() {
       this.beforX = null;
       this.beforY = null;
       this.isDrawing = false;
       this.strokeStyle = this.getRandomColor();
-      return this.lineWidth = 3;
-    };
-
-    Painter.prototype.getRandomColor = function() {
-      var b, g, r;
-      r = Math.floor(Math.random() * 255);
-      g = Math.floor(Math.random() * 255);
-      b = Math.floor(Math.random() * 255);
-      return "rgb(" + r + "," + g + "," + b + ")";
-    };
-
-    Painter.prototype.setEvents = function() {
-      var _this = this;
+      this.lineWidth = 3;
       this.canvas.addEventListener('mousedown', function(event) {
         return _this.down(event);
       });
@@ -38,9 +22,17 @@
       this.canvas.addEventListener('mousemove', function(event) {
         return _this.move(event);
       });
-      return this.canvas.addEventListener('mouseout', function(event) {
+      this.canvas.addEventListener('mouseout', function(event) {
         return _this.up(event);
       });
+    }
+
+    Painter.prototype.getRandomColor = function() {
+      var b, g, r;
+      r = Math.floor(Math.random() * 255);
+      g = Math.floor(Math.random() * 255);
+      b = Math.floor(Math.random() * 255);
+      return "rgb(" + r + "," + g + "," + b + ")";
     };
 
     Painter.prototype.down = function(event) {
