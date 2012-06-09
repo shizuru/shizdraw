@@ -15,6 +15,7 @@ setup
 -----
 
 expressのインストール
+~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -27,6 +28,9 @@ expressのインストール
 
     express drawsample
     cd drawsample
+
+依存モジュールのインストール
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 package.jsonを編集してnow.jsを含めます(Windowsの場合は含めません、後述)。
 
@@ -49,7 +53,7 @@ package.jsonを編集してnow.jsを含めます(Windowsの場合は含めませ
     npm install .
 
 Windowsの場合
-~~~~~~~~~~~~~
++++++++++++++
 
 `Running NowJS natively on Windows <http://blog.nowjs.com/running-nowjs-natively-on-windows>`_ を参考にしてVC++ランタイム
 とともにwin用バイナリを入れてください。それからsocket.ioは別途インストールする必要があります。
@@ -58,13 +62,22 @@ Windowsの場合
 
     npme install socket.io
 
-app.jsをapp.coffeeにします。
+CoffeeScriptで開発する
+~~~~~~~~~~~~~~~~~~~~~~
+
+app.jsをapp.coffeeにします。javascriptでガリガリ書きたいヒトはこの項目をスキップしてください。
 
 ::
 
     js2coffee app.js
 
-app.coffeeを編集しますが、now.js周りの設定だけです。portの設定はheroku対策
+app.coffeeを編集
+~~~~~~~~~~~~~~~~
+
+now.js周りの設定だけです。
+disgributeMessageという関数でmessageを受け取って全クライアントのreceiveMessageにブロードキャストするようなイメージです。
+
+portの設定はheroku対策です。
 
 ::
 
@@ -81,9 +94,21 @@ app.coffeeを編集しますが、now.js周りの設定だけです。portの設
       console.log "Express server listening on port %d in %s mode",
         app.address().port, app.settings.env
 
-続いて、client.coffeeを作成します。内容は省略しますが、canvasを操作するコードです。
+
+client.coffeeを作成します。
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+内容は省略しますが、canvasを操作するコードです。処理が知りたければ
+直接聞いてください。時間があれば丁寧に説明します。
+
 
 views/layout.jadeにnow.jsとjQueryの設定をします。
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+jqueryとstylesheetの読み込みをおこないます。
+もしかすると/nowjs/now.jsはどこにあるんだ?と疑問に思うかもしれませんが、よろしくやってくれるようになっています。
+(socket.ioも一緒だったような)
+
 
 ::
 
@@ -97,7 +122,11 @@ views/layout.jadeにnow.jsとjQueryの設定をします。
         script(src='/nowjs/now.js')
       body!= bod
 
-views/index.jadeも変更します。scriptはpainterインスタンスを生成して、サーバーとの送受信をするコードです。
+views/index.jadeの変更
+~~~~~~~~~~~~~~~~~~~~~~
+
+scriptはpainterインスタンスを生成して、サーバーとの送受信をするコードです。サーバーからのメッセージを受け取る
+receiveMessageはここで定義しています。messageを受け取ったらpainterのdrawLineメソッドを呼び出して描画します。
 
 ::
 
@@ -108,7 +137,10 @@ views/index.jadeも変更します。scriptはpainterインスタンスを生成
         now.receiveMessage = function(message){ painter.drawLine(JSON.parse(message)) };
       });
 
-style.cssにlayer0用のスタイルを追加します。
+style.cssの追加
+~~~~~~~~~~~~~~~
+
+layer0用のスタイルを追加します。
 
 ::
 
@@ -120,6 +152,10 @@ style.cssにlayer0用のスタイルを追加します。
     }
 
 heroku用の設定
+~~~~~~~~~~~~~~
+
+herokuにデプロイする時のために、ログを残しておきます。
+参考にしてください。
 
 ::
 
