@@ -28,7 +28,7 @@ expressのインストール
     express drawsample
     cd drawsample
 
-package.jsonを編集してnow.jsを含めます。
+package.jsonを編集してnow.jsを含めます(Windowsの場合は含めません、後述)。
 
 ::
 
@@ -48,6 +48,15 @@ package.jsonを編集してnow.jsを含めます。
 
     npm install .
 
+Windowsの場合
+~~~~~~~~~~~~~
+
+`Running NowJS natively on Windows <http://blog.nowjs.com/running-nowjs-natively-on-windows>`_ を参考にしてVC++ランタイム
+とともにwin用バイナリを入れてください。それからsocket.ioは別途インストールする必要があります。
+
+::
+
+    npme install socket.io
 
 app.jsをapp.coffeeにします。
 
