@@ -1,0 +1,28 @@
+<!DOCTYPE 5 ><!-- Google HTML5 slide template   --><!-- Authors: Luke Mahé (code)--><!--          Marcin Wichary (code and design)--><!--          Dominic Mazzoni (browser compatibility)--><!--          Charles Chen (ChromeVox support)  --><!-- URL: http://code.google.com/p/html5slides/--><html><head><title></title><meta charset="utf-8"/><script src="./slides.js"></script></head><body style="display: none"><section class="slides layout-regular template-default"><article><h1>静岡Developers勉強会(node.jsハンズオン)</h1><h2>Express + now.jsでリアルタイムお絵描きサービスをつくろう</h2><p>kzfm (Jun 30, 2012)</p></article><article><h3>はじめに</h3><p>資料は<a href="https://github.com/kzfm/shizdraw">GitHub</a>にあります
+</p><pre>git clone git@github.com:kzfm/shizdraw.git</pre><p>またはzipでダウンロード</p><p>簡易HTTPサーバーはpythonの場合</p><pre>cd slides
+python -m SimpleHTTPServer
+# http://localhost:8000/にアクセスするとスライドが始まります
+
+</pre></article><article class="nobackground"><h3>完成品 (リアルタイムでお絵描きが反映されます)</h3><iframe src="http://young-samurai-3442.herokuapp.com/"></iframe></article><article><h3>自己紹介</h3><ul><li>twitter:kzfm</li><li>http://blog.kzfmix.com</li><li>Python,CoffeeScript,(Haskell見習い)</li><li>研究したりしなかったりというのが仕事</li><ul><li>(する期としない期が交互にあって今はしない期です:-))</li></ul><img style="width: 400px" src="images/1py1.jpg"/></ul></article><article><h1>今日覚えてほしいもの</h1><ul class="build"><li>ナウなヤングのnow.js</li><li>お手軽WAFのExpress</li><li>(javascript + Python + Ruby) / 3 なCoffeeScript</li></ul></article><article><h1>楽勝ですね ♪</h1><p>このセッションのテーマはお手軽さの追求です</p></article><article><ul><li><a href="http://nowjs.com/doc/nowjs"><img src="http://nowjs.com/images/nowlogo.png"/></a></li></ul><p>nowというサーバーにもクライアントにも同時に存在するかのように振る舞うオブジェクトを提供する</p><pre>// On the server
+// Sets the value of every client's `now.x` to 'test'
+everyone.now.x = 'test';
+
+// Calls a function named `test` on every client, ignoring clients that do not have `now.test`
+everyone.now.test();
+
+</pre></article><article><h3>特徴</h3><ul class="build"><li>変数が共有されてる感じでコーディングできる</li><li>勝手にフォールバックしてくれる(後ろでSocket.ioが動いている)</li><li>websoketのチマチマしたコードを書かなくていい</li><li>詳しく知りたければ<a href="http://www.amazon.co.jp/dp/4798028215/">徹底解説 HTML5 APIガイドブック コミュニケーション系API編</a>を読むといいです
+</li></ul></article><article><h2>Express</h2></article><article><h3>Expressとは何か? </h3><ul><li>Node.js用のWAF</li><li>Sinatra(ruby)クローン</li></ul><pre>var app = express.createServer();
+
+app.get('/', function(req, res){
+  res.send('Hello World');
+});
+
+app.listen(3000);
+
+</pre></article><article><h3>Jadeとは何か? </h3><ul><li>Expressのデフォルトのテンプレートエンジン</li><li>インデントでネストを表現</li><pre>article
+h3 Jadeとは何か? 
+ul
+  li Expressのデフォルトのテンプレートエンジン
+  li インデントでネストを表現
+
+</pre><li>このスライドもJade->HTML5に変換してるので参考にしてください</li></ul></article><article><h1>スキャフォールドも用意してくれるのでとっつきやすい ♪</h1><p>マニュアルも日本語化されているので興味がわいたら読めばいいです。</p></article><article><h2>CoffeeScript</h2></article><article class="nobackground"><iframe src="http://coffeescript.org/"></iframe></article><article><h3>(私版)CoffeeScriptの何がいいの?</h3><ul class="build"><li>function が -></li><li>bindが=></li><li>中括弧不要(インデント)</li><li>クラスの宣言が便利</li><li>thisを@</li><li>文字列埋め込み楽ちん "変数は#{var}"</li><li>リスト内包表記が使える</li><li>for in, for ofループが楽</li><li>ifの後置(perlみたい)</li></ul></article><article><h3>(注意) CoffeeScript</h3><ul class="build"><li>javascriptにコンパイルするだけなので結局javascriptがわからないとデバッグできない</li><li>他言語(Ruby,Python)を知らないと学習コストが無駄にかかる</li><li>自分に合っているかどうかは各自で判断してください</li></ul></article><article><h3>詳しくは本を買いましょう</h3><ul><li><img width="400px" src="images/417zJnV-ydL._SL500_AA300_.jpg"/></li></ul></article><article><h1>一通り説明したのでハンズオン開始</h1><p>流れはgithubのREADMEに書いてあるので見ながらやってください。</p></article></section></body></html>
