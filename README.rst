@@ -20,6 +20,7 @@ expressのインストール
 ::
 
     npm install -g express
+    npm install -g coffee-script
     npm install -g js2coffee
 
 これで、expressコマンドが使えるようになるのでスケルトンを作成します。
@@ -94,6 +95,18 @@ portの設定はheroku対策です。
       console.log "Express server listening on port %d in %s mode",
         app.address().port, app.settings.env
 
+express@3.0.0beta4の場合はapp.configureでportの設定をよろしくやってあるので、now.jsの設定だけ追加すればいいが、serverを渡さないといけないらしい。
+
+::
+
+    app.get "/", routes.index
+    server = http.createServer(app).listen app.get("port"), ->
+      console.log "Express server listening on port " + app.get("port")
+    
+    everyone = require("now").initialize(server)
+    
+    everyone.now.distributeMessage = (message) ->
+      everyone.now.receiveMessage message
 
 client.coffeeを作成します。
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,7 +125,7 @@ jqueryとstylesheetの読み込みをおこないます。
 
 ::
 
-    !!!
+    !!! 5
     html
       head
         title= title
@@ -120,7 +133,22 @@ jqueryとstylesheetの読み込みをおこないます。
         script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
         script(src='/javascripts/client.js')
         script(src='/nowjs/now.js')
-      body!= bod
+      body!= body
+
+express@3.0.0beta4の場合はblockで設定してあるのであわせたけど別にどっちでもいい。
+
+::
+
+    !!! 5
+    html
+      head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/style.css')
+        script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+        script(src='/javascripts/client.js')
+        script(src='/nowjs/now.js')
+      body
+        block content
 
 views/index.jadeの変更
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -136,6 +164,21 @@ receiveMessageはここで定義しています。messageを受け取ったらpa
         var painter = new Painter('layer0');
         now.receiveMessage = function(message){ painter.drawLine(JSON.parse(message)) };
       });
+
+express@3.0.0beta4の場合
+
+::
+
+    extends layout
+    block content
+      canvas#layer0(width='900px', height='600px')
+      script
+        $(document).ready(function(){
+          var painter = new Painter('layer0');
+          now.receiveMessage = function(message){ 
+            painter.drawLine(JSON.parse(message))
+          };
+        });
 
 style.cssの追加
 ~~~~~~~~~~~~~~~
