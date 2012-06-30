@@ -14,6 +14,32 @@ Requirements
 setup
 -----
 
+全体像
+~~~~~~
+
+ファイルはこのような感じで配置されます。public以下はjavascript,css,imageなんかの静的なファイルで、viewsはレンダリングに使われる
+テンプレートエンジンが配置されます。
+
+::
+
+    .
+    ├── app.coffee
+    ├── app.js
+    ├── node_modules
+    ├── package.json
+    ├── public
+    │   ├── images
+    │   ├── javascripts
+    │   │   ├── client.coffee
+    │   │   └── client.js
+    │   └── stylesheets
+    │       └── style.css
+    ├── routes
+    │   └── index.js
+    └── views
+        ├── index.jade
+        └── layout.jade
+
 expressのインストール
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -30,8 +56,8 @@ expressのインストール
     express drawsample
     cd drawsample
 
-依存モジュールのインストール
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+依存モジュールのインストール(package.json)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 package.jsonを編集してnow.jsを含めます(Windowsの場合は含めません、後述)。
 
@@ -46,6 +72,7 @@ package.jsonを編集してnow.jsを含めます(Windowsの場合は含めませ
         , "jade": ">= 0.0.1"
         , "now": ">= 0.8.0"
       }
+    }
 
 依存モジュールをインストール
 
@@ -72,8 +99,8 @@ app.jsをapp.coffeeにします。javascriptでガリガリ書きたいヒトは
 
     js2coffee app.js
 
-app.coffeeを編集
-~~~~~~~~~~~~~~~~
+app.coffeeを編集(app.coffee)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 now.js周りの設定だけです。
 disgributeMessageという関数でmessageを受け取って全クライアントのreceiveMessageにブロードキャストするようなイメージです。
@@ -108,14 +135,14 @@ express@3.0.0beta4の場合はapp.configureでportの設定をよろしくやっ
     everyone.now.distributeMessage = (message) ->
       everyone.now.receiveMessage message
 
-client.coffeeを作成します。
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+client.coffeeを作成します。(public/javascripts/client.coffee)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 内容は省略しますが、canvasを操作するコードです。処理が知りたければ
 直接聞いてください。時間があれば丁寧に説明します。
 
 
-views/layout.jadeにnow.jsとjQueryの設定をします。
+now.jsとjQueryの設定をします。(views/layout.jade)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 jqueryとstylesheetの読み込みをおこないます。
@@ -150,8 +177,8 @@ express@3.0.0beta4の場合はblockで設定してあるのであわせたけど
       body
         block content
 
-views/index.jadeの変更
-~~~~~~~~~~~~~~~~~~~~~~
+index.jadeの変更(views/index.jade)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 scriptはpainterインスタンスを生成して、サーバーとの送受信をするコードです。サーバーからのメッセージを受け取る
 receiveMessageはここで定義しています。messageを受け取ったらpainterのdrawLineメソッドを呼び出して描画します。
@@ -180,8 +207,8 @@ express@3.0.0beta4の場合
           };
         });
 
-style.cssの追加
-~~~~~~~~~~~~~~~
+style.cssへスタイルの追加(public/stylesheets/style.css)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 layer0用のスタイルを追加します。
 
